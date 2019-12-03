@@ -29,7 +29,7 @@ public class ActivitiConfig {
     }
 
     @Bean
-    public ProcessEngineFactoryBean processEngine() {
+    public ProcessEngineFactoryBean getProcessEngine() {
         ProcessEngineFactoryBean processEngineFactoryBean = new ProcessEngineFactoryBean();
         processEngineFactoryBean.setProcessEngineConfiguration(processEngineConfiguration());
         return processEngineFactoryBean;
@@ -37,17 +37,17 @@ public class ActivitiConfig {
 
     @Bean
     public RepositoryService repositoryService() throws Exception{
-        return processEngine().getObject().getRepositoryService();
+        return getProcessEngine().getObject().getRepositoryService();
     }
 
     @Bean
     public RuntimeService runtimeService() throws Exception{
-        return processEngine().getObject().getRuntimeService();
+        return getProcessEngine().getObject().getRuntimeService();
     }
 
     @Bean
     public TaskService taskService() throws Exception{
-        return processEngine().getObject().getTaskService();
+        return getProcessEngine().getObject().getTaskService();
     }
 
 }
