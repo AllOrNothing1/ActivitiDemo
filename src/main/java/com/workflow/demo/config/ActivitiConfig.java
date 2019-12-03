@@ -2,6 +2,7 @@ package com.workflow.demo.config;
 
 import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.activiti.spring.ProcessEngineFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,23 +29,25 @@ public class ActivitiConfig {
     }
 
     @Bean
-    public ProcessEngine processEngine() {
-        return processEngineConfiguration().buildProcessEngine();
+    public ProcessEngineFactoryBean processEngine() {
+        ProcessEngineFactoryBean processEngineFactoryBean = new ProcessEngineFactoryBean();
+        processEngineFactoryBean.setProcessEngineConfiguration(processEngineConfiguration());
+        return processEngineFactoryBean;
     }
 
     @Bean
-    public RepositoryService repositoryService() {
-        return processEngine().getRepositoryService();
+    public RepositoryService repositoryService() throws Exception{
+        return processEngine().getObject().getRepositoryService();
     }
 
     @Bean
-    public RuntimeService runtimeService() {
-        return processEngine().getRuntimeService();
+    public RuntimeService runtimeService() throws Exception{
+        return processEngine().getObject().getRuntimeService();
     }
 
     @Bean
-    public TaskService taskService() {
-        return processEngine().getTaskService();
+    public TaskService taskService() throws Exception{
+        return processEngine().getObject().getTaskService();
     }
 
 }
