@@ -1,5 +1,6 @@
 package com.workflow.demo.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,5 +13,10 @@ public class WorkFlowController {
         String key = map.get("key").toString();
 
         return "";
+    }
+
+    @PostMapping(value = "/test")
+    public Object test(){
+        return "success";
     }
 }
