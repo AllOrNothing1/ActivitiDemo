@@ -25,6 +25,7 @@ public class ActivitiConfig {
         configuration.setDataSource(dataSource);
         configuration.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
         configuration.setAsyncExecutorActivate(false);
+        configuration.setProcessDefinitionCacheLimit(200);
         return configuration;
     }
 

@@ -16,6 +16,9 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <activiti.version>5.22.0</activiti.version>
+        <json-lib.version>2.4</json-lib.version>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <profiles>
@@ -95,7 +98,27 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>5.22.0</version>
+            <version>${activiti.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-json-converter</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
+
+        <!-- json-lib -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>${json-lib.version}</version>
+            <classifier>jdk15</classifier>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
 
     </dependencies>
