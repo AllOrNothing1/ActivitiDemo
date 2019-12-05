@@ -1,17 +1,18 @@
-package com.workflow.demo.activiti.engine.impl.entity;
+package org.activiti.engine.impl.persistence.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.DelegateTask;
+import org.activiti.engine.delegate.event.ActivitiEventType;
+import org.activiti.engine.delegate.event.impl.ActivitiEventBuilder;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.db.BulkDeleteable;
 import org.activiti.engine.impl.db.DbSqlSession;
 import org.activiti.engine.impl.db.HasRevision;
 import org.activiti.engine.impl.db.PersistentObject;
 import org.activiti.engine.impl.interceptor.CommandContext;
-import org.activiti.engine.impl.persistence.entity.*;
 import org.activiti.engine.impl.pvm.delegate.ActivityExecution;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.task.DelegationState;
@@ -80,9 +81,15 @@ public class TaskEntity extends VariableScopeImpl implements Task, DelegateTask,
         this.id = taskId;
     }
 
+    /**
+     * 创建新的任务
+     * @param execution
+     * @return
+     */
     public static TaskEntity createAndInsert(ActivityExecution execution){
         TaskEntity taskEntity = create(Context.getProcessEngineConfiguration().getClock().getCurrentTime());
-        taskEntity.insert
+        taskEntity.insert((ExecutionEntity) execution);
+        return taskEntity;
     }
 
     /**
@@ -106,7 +113,18 @@ public class TaskEntity extends VariableScopeImpl implements Task, DelegateTask,
             setTenantId(execution.getTenantId());
         }
 
-        if ()
+        if (execution != null){
+            execution.addTask(this);
+        }
+
+        commandContext.getHistoryManager().recordTaskCreated(this,execution);
+
+        if(commandContext.getProcessEngineConfiguration().getEventDispatcher().isEnabled()){
+            commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
+                    ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_CREATED,this));
+            commandContext.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
+                    ActivitiEventBuilder.createEntityEvent(ActivitiEventType.ENTITY_INITIALIZED,this));
+        }
     }
 
 
