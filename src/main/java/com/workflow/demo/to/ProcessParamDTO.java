@@ -13,11 +13,19 @@ public class ProcessParamDTO implements Serializable {
     @Getter
     @Setter
     private String tenantId;
+
     @Getter
     @Setter
     private String processInstanceId;
+
+    @Getter
+    @Setter
+    private String personId;
+
     @Getter
     @Setter
     private Map<String, Object> variables;
+
+
 
 }

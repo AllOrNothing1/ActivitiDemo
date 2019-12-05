@@ -15,12 +15,14 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -92,8 +94,7 @@ public class ActivitiServiceImpl implements ActivitiService {
      */
     @Override
     public Map<String,Object> createProcessinstance(String key, String tenantId) {
-        //ProcessInstance processInstance = runtimeService.startProcessInstanceByKeyAndTenantId(key,key,tenantId);
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(key,tenantId);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKeyAndTenantId(key,tenantId);
 
         Map<String,Object> map = new HashMap<>();
         map.put("processInstanceId",processInstance.getProcessInstanceId());
@@ -111,7 +112,14 @@ public class ActivitiServiceImpl implements ActivitiService {
      */
     @Override
     public Object apply(ProcessParamDTO processParamDTO) throws Exception {
-        taskService.complete(processParamDTO.getProcessInstanceId());
+        List<Task> taskList = taskService.createTaskQuery().processInstanceId(processParamDTO.getProcessInstanceId()).list();
+        for (Task task:taskList){
+            logger.info(task.getId());
+            taskService.claim(task.getId(),processParamDTO.getPersonId());
+            taskService.complete(task.getId(),);
+        }
+
+
         return null;
     }
 
