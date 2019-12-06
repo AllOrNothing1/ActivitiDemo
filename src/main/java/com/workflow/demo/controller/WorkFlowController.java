@@ -10,16 +10,14 @@ import org.activiti.engine.repository.Deployment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Map;
-
-@RestController("/workflow")
+@Controller
+@RequestMapping("/workflow")
 public class WorkFlowController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -88,15 +86,6 @@ public class WorkFlowController {
         } catch (Exception e) {
             return expUtil.adjustExp(e);
         }
-    }
-
-    /**
-     * 测试接口是否能调通
-     * @return
-     */
-    @PostMapping(value = "/test")
-    public Object test(){
-        return "success";
     }
 
     @PostMapping("deploy")

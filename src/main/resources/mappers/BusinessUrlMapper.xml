@@ -7,18 +7,18 @@
     <result column="desc_" jdbcType="VARCHAR" property="desc" />
     <result column="update_time_" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="url_" jdbcType="VARCHAR" property="url" />
-    <result column="state_" jdbcType="VARCHAR" property="state" />
     <result column="custcode_" jdbcType="VARCHAR" property="custcode" />
     <result column="productline_" jdbcType="VARCHAR" property="productline" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, create_time_, desc_, update_time_, url_, state_, custcode_, productline_
+    id, create_time_, desc_, update_time_, url_, custcode_, productline_
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByTenantId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from business_url
-    where id = #{id,jdbcType=BIGINT}
+    where custcode_ = #{tenantId,jdbcType=VARCHAR}
+    and productline_ = #{productLine,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from business_url
@@ -26,7 +26,7 @@
   </delete>
   <insert id="insert" parameterType="com.workflow.demo.entity.BusinessUrl">
     insert into business_url (id, create_time_, desc_, 
-      update_time_, url_, state_, 
+      update_time_, url_,
       custcode_, productline_)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{desc,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
@@ -49,9 +49,6 @@
       </if>
       <if test="url != null">
         url_,
-      </if>
-      <if test="state != null">
-        state_,
       </if>
       <if test="custcode != null">
         custcode_,
@@ -102,9 +99,6 @@
       <if test="url != null">
         url_ = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        state_ = #{state,jdbcType=VARCHAR},
-      </if>
       <if test="custcode != null">
         custcode_ = #{custcode,jdbcType=VARCHAR},
       </if>
@@ -120,7 +114,6 @@
       desc_ = #{desc,jdbcType=VARCHAR},
       update_time_ = #{updateTime,jdbcType=TIMESTAMP},
       url_ = #{url,jdbcType=VARCHAR},
-      state_ = #{state,jdbcType=VARCHAR},
       custcode_ = #{custcode,jdbcType=VARCHAR},
       productline_ = #{productline,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

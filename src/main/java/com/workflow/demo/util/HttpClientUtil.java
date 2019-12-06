@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HttpClientUtil {
-    private static Logger logger = LoggerFactory.getLogger(getClass());
+    private static Logger logger = LoggerFactory.getLogger(getHttpClient().getClass());
 
     // 字符编码
     public static final String CHARSET_UTF_8 = "utf-8";

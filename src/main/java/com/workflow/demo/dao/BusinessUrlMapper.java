@@ -9,7 +9,7 @@ public interface BusinessUrlMapper {
 
     int insertSelective(BusinessUrl record);
 
-    BusinessUrl selectByPrimaryKey(Long id);
+    BusinessUrl selectByTenantId(String productLine,String tenantId);
 
     int updateByPrimaryKeySelective(BusinessUrl record);
 

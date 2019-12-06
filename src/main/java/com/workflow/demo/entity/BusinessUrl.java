@@ -14,8 +14,6 @@ public class BusinessUrl implements Serializable {
 
     private String url;
 
-    private String state;
-
     private String custcode;
 
     private String productline;
@@ -60,14 +58,6 @@ public class BusinessUrl implements Serializable {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
     }
 
     public String getCustcode() {
