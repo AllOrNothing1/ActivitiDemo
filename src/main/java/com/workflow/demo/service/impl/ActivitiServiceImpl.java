@@ -116,10 +116,8 @@ public class ActivitiServiceImpl implements ActivitiService {
         for (Task task:taskList){
             logger.info(task.getId());
             taskService.claim(task.getId(),processParamDTO.getPersonId());
-            taskService.complete(task.getId(),);
+            taskService.complete(task.getId(),processParamDTO.getVariables());
         }
-
-
         return null;
     }
 
